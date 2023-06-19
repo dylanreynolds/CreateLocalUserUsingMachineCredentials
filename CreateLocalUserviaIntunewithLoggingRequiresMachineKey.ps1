@@ -75,10 +75,10 @@ If (Get-LocalUser -Name $adminUsername -ErrorAction SilentlyContinue) {
     Try {
         Write-Output "Downloading lastest securepassword..."
         Invoke-WebRequest -v "https://raw.githubusercontent.com/dylanreynolds/CreateLocalUserUsingMachineCredentials/main/MyPwd.txt" -outfile $folder"\MyPwd.txt"
-        Invoke-WebRequest -v "https://raw.githubusercontent.com/dylanreynolds/CreateLocalUserUsingMachineCredentials/main/KeyFile.key" -outfile $folder"\KeyFile.txt"
+        Invoke-WebRequest -v "https://raw.githubusercontent.com/dylanreynolds/CreateLocalUserUsingMachineCredentials/main/KeyFile.key" -outfile $folder"\KeyFile.key"
 
         # Read the encrypted password from file
-        $encryptedPassword = Get-SecurePassword -PwdFile .\MyPwd.txt -KeyFile .\KeyFile.key
+        $encryptedPassword = Get-SecurePassword -PwdFile $folder\MyPwd.txt -KeyFile $folder\KeyFile.key
         Remove-Item -Path $folder"\Password.txt" -Force
         Remove-Item -Path $folder"\KeyFile.key" -Force
 
@@ -117,10 +117,10 @@ If (Get-LocalUser -Name $adminUsername -ErrorAction SilentlyContinue) {
     Write-Output "User account with that name does not exists, creating user account..." 
     Write-Output "Downloading securepassword..."
     Invoke-WebRequest -v "https://raw.githubusercontent.com/dylanreynolds/CreateLocalUserUsingMachineCredentials/main/MyPwd.txt" -outfile $folder"\MyPwd.txt"
-    Invoke-WebRequest -v "https://raw.githubusercontent.com/dylanreynolds/CreateLocalUserUsingMachineCredentials/main/KeyFile.key" -outfile $folder"\KeyFile.txt"
+    Invoke-WebRequest -v "https://raw.githubusercontent.com/dylanreynolds/CreateLocalUserUsingMachineCredentials/main/KeyFile.key" -outfile $folder"\KeyFile.key"
 
     # Read the encrypted password from file
-    $encryptedPassword = Get-SecurePassword -PwdFile .\MyPwd.txt -KeyFile .\KeyFile.key
+    $encryptedPassword = Get-SecurePassword -PwdFile $folder\MyPwd.txt -KeyFile $folder\KeyFile.key
     Remove-Item -Path $folder"\MyPwd.txt" -Force
     Remove-Item -Path $folder"\KeyFile.key" -Force
 
