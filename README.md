@@ -18,8 +18,7 @@ Full path to file that the "key" is saved.
 Requires a MyPwd.txt generated using https://github.com/dylanreynolds/GenerateSecureStringWithKey
 
 # .EXAMPLE   
-Gets run from intune - no intented to be run locally like seen in
-https://github.com/dylanreynolds/GenerateSecureStringWithKey
+Gets run from intune - not intented to be run locally.
 
 
 # .PROBLEMS  
