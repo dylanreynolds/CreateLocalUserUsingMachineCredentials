@@ -1,29 +1,29 @@
-
-
 <# 
 .SYNOPSIS 
-Pulls in the password as a SecureString.
+Creates OR Updates Local Administrator account using MDM scripts in Intune.
 
 .DESCRIPTION 
-Pulls the encrypted password utilizing the key file provided to output a SecureString.
+Creates a local admin using credentials key and secure key password txt file. (no stored text)
+Get-SecurePassword - credit to Author: Shawn Melton (@wsmelton), http://blog.wsmelton.com
 
 THIS CODE IS PROVIDED "AS IS", WITH NO WARRANTIES.
 
 .PARAMETER PwdFile
-Full path to file that the "passowrd" is saved.
+Full path to file that the "password" is saved.
 
 .PARAMETER KeyFile
 Full path to file that the "key" is saved.
 
 .NOTES 
-Author: Shawn Melton (@wsmelton), http://blog.wsmelton.com
+Requires a MyPwd.txt generated using https://github.com/dylanreynolds/GenerateSecureStringWithKey
 
 .EXAMPLE   
-Get-SecurePassword -PwdFile C:\MyPassword.txt -KeyFile C:\MyKey.key
+Gets run from intune - not intented to be run locally.
 
-Description
-Retrieves the password found in C:\MyPassword.txt and decrypts it using the key found in C:\MyKey.key. 
-Outputs the SecureString object to be used in a PSCredential object.
+.PROBLEMS  
+Security concerns yet to be addressed including both the path to the pwd file and key file.
+Perhaps they are moved to an internal server for referencing only.
+
 #>
 
 function Get-SecurePassword {
@@ -79,7 +79,7 @@ If (Get-LocalUser -Name $adminUsername -ErrorAction SilentlyContinue) {
 
         # Read the encrypted password from file
         $encryptedPassword = Get-SecurePassword -PwdFile $folder\MyPwd.txt -KeyFile $folder\KeyFile.key
-        Remove-Item -Path $folder"\Password.txt" -Force
+        Remove-Item -Path $folder"\MyPwd.txt" -Force
         Remove-Item -Path $folder"\KeyFile.key" -Force
 
         $adminAccountParams = @{
@@ -131,6 +131,7 @@ If (Get-LocalUser -Name $adminUsername -ErrorAction SilentlyContinue) {
         Password = $encryptedPassword
         PasswordNeverExpires = $true
         AccountNeverExpires = $true
+        UserCannotChangePassword = $true
     }
     New-LocalUser @adminAccountParams
 
