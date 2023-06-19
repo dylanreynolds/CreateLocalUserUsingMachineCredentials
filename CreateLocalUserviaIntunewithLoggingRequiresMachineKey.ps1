@@ -52,7 +52,6 @@ $folder = "C:\ProgramData\ALU"
 $LogFileName = "ALU-"+ $DateStr
 $LogFile = "$folder"+"\"+"$LogFileName.Log"
 
-
 # Create the new local user account
 $adminUsername = "admin"
 $adminFullName = "Local Admin"
@@ -75,8 +74,8 @@ If (Get-LocalUser -Name $adminUsername -ErrorAction SilentlyContinue) {
 
     Try {
         Write-Output "Downloading lastest securepassword..."
-        Invoke-WebRequest -v "https://raw.githubusercontent.com/dylanreynolds/GenerateSecureString/main/MyPwd.txt" -outfile $folder"\MyPwd.txt"
-        Invoke-WebRequest -v "https://raw.githubusercontent.com/dylanreynolds/GenerateSecureString/main/KeyFile.key" -outfile $folder"\KeyFile.txt"
+        Invoke-WebRequest -v "https://raw.githubusercontent.com/dylanreynolds/CreateLocalUserUsingMachineCredentials/main/MyPwd.txt" -outfile $folder"\MyPwd.txt"
+        Invoke-WebRequest -v "https://raw.githubusercontent.com/dylanreynolds/CreateLocalUserUsingMachineCredentials/main/KeyFile.key" -outfile $folder"\KeyFile.txt"
 
         # Read the encrypted password from file
         $encryptedPassword = Get-SecurePassword -PwdFile .\MyPwd.txt -KeyFile .\KeyFile.key
@@ -117,8 +116,8 @@ If (Get-LocalUser -Name $adminUsername -ErrorAction SilentlyContinue) {
     Try {
     Write-Output "User account with that name does not exists, creating user account..." 
     Write-Output "Downloading securepassword..."
-    Invoke-WebRequest -v "https://raw.githubusercontent.com/dylanreynolds/GenerateSecureString/main/MyPwd.txt" -outfile $folder"\MyPwd.txt"
-    Invoke-WebRequest -v "https://raw.githubusercontent.com/dylanreynolds/GenerateSecureString/main/KeyFile.key" -outfile $folder"\KeyFile.txt"
+    Invoke-WebRequest -v "https://raw.githubusercontent.com/dylanreynolds/CreateLocalUserUsingMachineCredentials/main/MyPwd.txt" -outfile $folder"\MyPwd.txt"
+    Invoke-WebRequest -v "https://raw.githubusercontent.com/dylanreynolds/CreateLocalUserUsingMachineCredentials/main/KeyFile.key" -outfile $folder"\KeyFile.txt"
 
     # Read the encrypted password from file
     $encryptedPassword = Get-SecurePassword -PwdFile .\MyPwd.txt -KeyFile .\KeyFile.key
@@ -134,7 +133,6 @@ If (Get-LocalUser -Name $adminUsername -ErrorAction SilentlyContinue) {
         AccountNeverExpires = $true
     }
     New-LocalUser @adminAccountParams
-
 
     # Add the new local user account to the Administrators group
     Add-LocalGroupMember -Group "Administrators" -Member $adminUsername
